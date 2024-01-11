@@ -35,7 +35,7 @@ export const ImageProvider = ({ children }) => {
       );
       const response = await Promise.race([timeout(19), fetchSiteUrl]);
       const data = await response.json();
-      // if (!response.ok) throw new Error(`${data.message} (${res.status})`);
+      if (!response.ok) throw new Error(`${data.message} (${res.status})`);
       console.log(data);
       setImages(data.hits);
       setIsLoading(false);
