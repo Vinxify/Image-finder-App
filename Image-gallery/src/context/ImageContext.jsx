@@ -1,19 +1,23 @@
 import { createContext } from "react";
 import { useState, useEffect } from "react";
 import { API_KEY, TIMEOUT_SEC, URL } from "../config/config";
-import Loading from "../components/Loading";
+
+import Error from "../assets/Error";
+// import Loading from "../components/Loading";
 
 const ImageContext = createContext();
 
 export const ImageProvider = ({ children }) => {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [term, setTerm] = useState("");
 
   useEffect(() => {
     fetchApi();
   }, [term]);
 
+  // Reject Promise for bad network
   const timeout = function (s) {
     return new Promise(function (_, reject) {
       setTimeout(function () {
@@ -22,28 +26,29 @@ export const ImageProvider = ({ children }) => {
     });
   };
 
+  //  AJAX CALL Promise
   const fetchApi = async () => {
     try {
+      setIsLoading(true);
       const fetchSiteUrl = fetch(
         `${URL}?key=${API_KEY}&q=${term}&image_type=photo`
       );
-      const response = await Promise.race([timeout(1), fetchSiteUrl]);
+      const response = await Promise.race([timeout(19), fetchSiteUrl]);
       const data = await response.json();
       // if (!response.ok) throw new Error(`${data.message} (${res.status})`);
       console.log(data);
       setImages(data.hits);
       setIsLoading(false);
     } catch (err) {
-      console.error(`${err.message} ${err}`);
-
-      if (err) {
-        const newError = () => <p>Bad request</p>;
-      }
+      setError(true);
+      setIsLoading(false);
     }
   };
 
-  return (
-    <ImageContext.Provider value={{ images, isLoading }}>
+  return error ? (
+    <Error />
+  ) : (
+    <ImageContext.Provider value={{ images, isLoading, setTerm }}>
       {children}
     </ImageContext.Provider>
   );

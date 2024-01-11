@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import ImageContext from "../context/ImageContext";
 
-function ImageSearch({ searchText }) {
+function ImageSearch() {
+  const { setTerm } = useContext(ImageContext);
   const [text, setText] = useState("");
   const handleChange = (e) => {
     setText(e.target.value);
@@ -8,7 +10,7 @@ function ImageSearch({ searchText }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchText(text);
+    setTerm(text);
   };
 
   return (

@@ -30,7 +30,7 @@ function ImageCard({ image }) {
           {tags.map((tag) => (
             <span
               key={tags.index}
-              className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-500 mr-2 my-1'
+              className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-500 mr-2 my-1 '
             >
               #{tag}
             </span>

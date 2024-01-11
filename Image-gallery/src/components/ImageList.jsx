@@ -2,7 +2,9 @@ import { useContext } from "react";
 import ImageContext from "../context/ImageContext";
 import ImageCard from "./ImageCard";
 
-import Loading from "./Loading";
+import Spinner from "../assets/Spinner";
+
+// import Loading from "./Loading";
 
 function ImageList() {
   const { images, isLoading } = useContext(ImageContext);
@@ -15,9 +17,9 @@ function ImageList() {
 
       {/* images */}
       {isLoading ? (
-        <Loading />
+        <Spinner />
       ) : (
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-3 gap-4 sm:grid sm:grid-cols-2'>
           {images.map((image) => (
             <ImageCard key={image.id} image={image} />
           ))}
